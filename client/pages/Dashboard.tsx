@@ -178,6 +178,14 @@ export default function Dashboard() {
     navigate("/");
   };
 
+  // Shared by the desktop nav and the mobile nav row below.
+  const navLinks = [
+    { to: "/dashboard", label: "Live map", badge: 0 },
+    { to: "/catalog", label: "Survival guide", badge: 0 },
+    { to: "/messages", label: "Messages", badge: unread ?? 0 },
+    ...(isAdmin ? [{ to: "/admin", label: "Admin", badge: 0 }] : []),
+  ];
+
   return (
     <main className="min-h-screen bg-[#f4f2ec] text-[#111111]">
       {/* ============ Top bar ============ */}
@@ -198,12 +206,7 @@ export default function Dashboard() {
 
           <div className="flex items-center gap-2">
             <nav className="hidden items-center gap-1.5 lg:flex">
-              {[
-                { to: "/dashboard", label: "Live map", badge: 0 },
-                { to: "/catalog", label: "Survival guide", badge: 0 },
-                { to: "/messages", label: "Messages", badge: unread ?? 0 },
-                ...(isAdmin ? [{ to: "/admin", label: "Admin", badge: 0 }] : []),
-              ].map((n) => (
+              {navLinks.map((n) => (
                 <Link
                   key={n.to}
                   to={n.to}
@@ -241,6 +244,24 @@ export default function Dashboard() {
             </Button>
           </div>
         </div>
+
+        {/* ============ Mobile nav (desktop uses the top-right nav) ============ */}
+        <nav className="flex gap-2 overflow-x-auto px-4 pb-2 lg:hidden">
+          {navLinks.map((n) => (
+            <Link
+              key={n.to}
+              to={n.to}
+              className="relative shrink-0 border-2 border-[#111111] bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wider shadow-[3px_3px_0_0_#111111] active:bg-[#ffd02f] active:shadow-none"
+            >
+              {n.label}
+              {n.badge > 0 && (
+                <span className="absolute -right-2 -top-2 flex size-4 items-center justify-center border-2 border-[#111111] bg-[#ff5c39] text-[9px] font-black text-white">
+                  {n.badge}
+                </span>
+              )}
+            </Link>
+          ))}
+        </nav>
 
         {/* ============ Live hazard ticker ============ */}
         <div className="border-t-2 border-[#111111] bg-[#111111] text-white">
