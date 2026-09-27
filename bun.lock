@@ -5,6 +5,7 @@
     "": {
       "name": "vite-template",
       "dependencies": {
+        "@auth/core": "0.37.4",
         "@convex-dev/auth": "^0.0.90",
         "@hookform/resolvers": "^5.2.2",
         "@jridgewell/trace-mapping": "^0.3.31",
