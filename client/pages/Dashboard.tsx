@@ -181,7 +181,7 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen bg-[#f4f2ec] text-[#111111]">
       {/* ============ Top bar ============ */}
-      <header className="sticky top-0 z-[600] border-b-2 border-[#111111] bg-[#f4f2ec]">
+      <header className="sticky top-0 z-600 border-b-2 border-[#111111] bg-[#f4f2ec]">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 border-2 border-[#111111] bg-[#111111] px-2.5 py-1.5 text-white shadow-[3px_3px_0_0_#ffd02f]">
@@ -244,7 +244,7 @@ export default function Dashboard() {
 
         {/* ============ Live hazard ticker ============ */}
         <div className="border-t-2 border-[#111111] bg-[#111111] text-white">
-          <div className="mx-auto flex w-full max-w-7xl items-center gap-3 overflow-x-auto px-4 py-2">
+          <div className="mx-auto flex w-full max-w-7xl items-center gap-3 overflow-auto px-4 py-2">
             <span className="shrink-0 bg-[#ffd02f] px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-[#111111]">
               Alerts
             </span>
@@ -340,7 +340,7 @@ export default function Dashboard() {
                 Zones · routes · shelters
               </p>
             </div>
-            <div className="h-[420px] lg:h-[560px]">
+            <div className="h-105 lg:h-140">
               <HazardMap
                 shelters={shelters}
                 routes={routes}
