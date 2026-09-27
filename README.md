@@ -1,293 +1,180 @@
-## Overview
+# Alert Navigator — Disaster Preparedness & Early Warning
 
-This project uses the following tech stack:
-- Vite
-- Typescript
-- React Router v7 (all imports from `react-router` instead of `react-router-dom`)
-- React 19 (for frontend components)
-- Tailwind v4 (for styling)
-- Shadcn UI (for UI components library)
-- Lucide Icons (for icons)
-- Convex (for backend & database)
-- Convex Auth (for authentication)
-- Framer Motion (for animations)
-- Three js (for 3d models)
+A full-stack disaster management web app: live hazard alerts (flood / cyclone / storm surge),
+a risk-zone map with shelters and evacuation routes, citizen SOS check-ins, community
+messaging, a survival guide, and an admin console. Data is simulated by a built-in
+"scenario engine" so the app is fully demo-able without any external APIs.
 
-All relevant files live in the 'src' directory.
+## Tech stack
 
-Use bun for the package manager.
+- **Frontend**: Vite, React 19, TypeScript, React Router v7, Tailwind CSS v4, shadcn/ui, Leaflet (maps), Framer Motion
+- **Backend**: [Convex](https://convex.dev) (database + serverless functions) and Convex Auth
+- **Auth**: Email OTP (verification code) + "Continue as guest" (anonymous) + Google OAuth (optional)
 
-## Setup
-
-This project is set up already and running on a cloud environment, as well as a convex development in the sandbox.
-
-## Environment Variables
-
-The project is set up with project specific CONVEX_DEPLOYMENT and VITE_CONVEX_URL environment variables on the client side.
-
-The convex server has a separate set of environment variables that are accessible by the convex backend.
-
-Currently, these variables include auth-specific keys: JWKS, JWT_PRIVATE_KEY, and SITE_URL.
-
-
-# Using Authentication (Important!)
-
-You must follow these conventions when using authentication.
-
-## Auth is already set up.
-
-All convex authentication functions are already set up. The auth currently uses email OTP and anonymous users, but can support more.
-
-The email OTP configuration is defined in `src/convex/auth/emailOtp.ts`. DO NOT MODIFY THIS FILE.
-
-Also, DO NOT MODIFY THESE AUTH FILES: `src/convex/auth.config.ts` and `src/convex/auth.ts`.
-
-## Using Convex Auth on the backend
-
-On the `src/convex/users.ts` file, you can use the `getCurrentUser` function to get the current user's data.
-
-## Using Convex Auth on the frontend
-
-The `/auth` page is already set up to use auth. Navigate to `/auth` for all log in / sign up sequences.
-
-You MUST use this hook to get user data. Never do this yourself without the hook:
-```typescript
-import { useAuth } from "@/hooks/use-auth";
-
-const { isLoading, isAuthenticated, user, signIn, signOut } = useAuth();
-```
-
-## Protected Routes
-
-The starter `/dashboard` route is protected with `RequireAuth`. Extend that page
-for the product's authenticated experience, and reuse `RequireAuth` when adding
-another protected route — do NOT hand-roll a redirect to `/auth`, since landing
-on a bare sign-in form with no explanation of what was blocked is confusing.
-
-`RequireAuth` states the block on the page the visitor asked for and sends them
-to `/auth?returnTo=<current route>` when they choose to sign in, so they come
-back to it. Pass `title` and `description` to say what the page is:
-
-```tsx
-<Route
-  path="/dashboard"
-  element={
-    <RequireAuth
-      title="Sign in to view your dashboard"
-      description="Your projects and settings live here."
-    >
-      <Dashboard />
-    </RequireAuth>
-  }
-/>
-```
-
-Pass `redirectImmediately` for a route where bouncing straight to `/auth` really
-is better.
-
-## Auth Page
-
-The auth page is defined in `src/pages/Auth.tsx`. Send sign-in and sign-up actions
-to `/auth`.
-
-## Authorization
-
-You can perform authorization checks on the frontend and backend.
-
-On the frontend, you can use the `useAuth` hook to get the current user's data and authentication state.
-
-You should also be protecting queries, mutations, and actions at the base level, checking for authorization securely.
-
-## Adding a redirect after auth
-
-The `/auth` route in `src/main.tsx` redirects to `/dashboard` by default. If the
-product's main authenticated route is different, update `redirectAfterAuth` to
-that route. A validated same-origin `returnTo` query parameter takes priority so
-users can resume the protected page they originally requested. Never leave an
-authenticated product redirecting back to the public landing page.
-
-## Complete authenticated products
-
-When the requested product implies accounts, a workspace, a dashboard, or other
-signed-in functionality, the task is not complete with only a landing page and
-auth form. Build the main authenticated experience, protect its route, and verify
-that signing in reaches it.
-
-# Frontend Conventions
-
-You will be using the Vite frontend with React 19, Tailwind v4, and Shadcn UI.
-
-Generally, pages should be in the `src/pages` folder, and components should be in the `src/components` folder.
-
-Shadcn primitives are located in the `src/components/ui` folder and should be used by default.
-
-## Page routing
-
-Your page component should go under the `src/pages` folder.
-
-When adding a page, update the react router configuration in `src/main.tsx` to include the new route you just added.
-
-## Shad CN conventions
-
-Follow these conventions when using Shad CN components, which you should use by default.
-- Remember to use "cursor-pointer" to make the element clickable
-- For title text, use the "tracking-tight font-bold" class to make the text more readable
-- Always make apps MOBILE RESPONSIVE. This is important
-- AVOID NESTED CARDS. Try and not to nest cards, borders, components, etc. Nested cards add clutter and make the app look messy.
-- AVOID SHADOWS. Avoid adding any shadows to components. stick with a thin border without the shadow.
-- Avoid skeletons; instead, use the loader2 component to show a spinning loading state when loading data.
-
-
-## Landing Pages
-
-You must always create good-looking designer-level styles to your application. 
-- Make it well animated and fit a certain "theme", ie neo brutalist, retro, neumorphism, glass morphism, etc
-
-Use known images and emojis from online.
-
-If the user is logged in already, show the get started button to say "Dashboard" or "Profile" instead to take them there.
-
-## Responsiveness and formatting
-
-Make sure pages are wrapped in a container to prevent the width stretching out on wide screens. Always make sure they are centered aligned and not off-center.
-
-Always make sure that your designs are mobile responsive. Verify the formatting to ensure it has correct max and min widths as well as mobile responsiveness.
-
-- Always create sidebars for protected dashboard pages and navigate between pages
-- Always create navbars for landing pages
-- On these bars, the created logo should be clickable and redirect to the index page
-
-## Animating with Framer Motion
-
-You must add animations to components using Framer Motion. It is already installed and configured in the project.
-
-To use it, import the `motion` component from `framer-motion` and use it to wrap the component you want to animate.
-
-
-### Other Items to animate
-- Fade in and Fade Out
-- Slide in and Slide Out animations
-- Rendering animations
-- Button clicks and UI elements
-
-Animate for all components, including on landing page and app pages.
-
-## Three JS Graphics
-
-Your app comes with three js by default. You can use it to create 3D graphics for landing pages, games, etc.
-
-
-## Colors
-
-You can override colors in: `src/index.css`
-
-This uses the oklch color format for tailwind v4.
-
-Always use these color variable names.
-
-Make sure all ui components are set up to be mobile responsive and compatible with both light and dark mode.
-
-Set theme using `dark` or `light` variables at the parent className.
-
-## Styling and Theming
-
-When changing the theme, always change the underlying theme of the shad cn components app-wide under `src/components/ui` and the colors in the index.css file.
-
-Avoid hardcoding in colors unless necessary for a use case, and properly implement themes through the underlying shad cn ui components.
-
-When styling, ensure buttons and clickable items have pointer-click on them (don't by default).
-
-Always follow a set theme style and ensure it is tuned to the user's liking.
-
-## Toasts
-
-You should always use toasts to display results to the user, such as confirmations, results, errors, etc.
-
-Use the shad cn Sonner component as the toaster. For example:
+## Project structure
 
 ```
-import { toast } from "sonner"
-
-import { Button } from "@/components/ui/button"
-export function SonnerDemo() {
-  return (
-    <Button
-      variant="outline"
-      onClick={() =>
-        toast("Event has been created", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
-      }
-    >
-      Show Toast
-    </Button>
-  )
-}
+alert-navigator/
+├── client/            # Frontend (React)
+│   ├── pages/         # Route pages (Landing, Auth, Dashboard, Catalog, ...)
+│   ├── components/    # App components + shadcn/ui primitives in components/ui
+│   ├── hooks/         # useAuth etc.
+│   ├── lib/           # Data, theme helpers
+│   └── main.tsx       # Entry point & router
+├── server/            # Convex backend (was src/convex)
+│   ├── schema.ts      # Database tables
+│   ├── simulation.ts  # Scenario engine: seeds + evolves live data
+│   ├── auth.ts        # Auth providers (email OTP, anonymous, Google)
+│   └── _generated/    # Auto-generated by Convex (do not edit)
+├── index.html
+├── vite.config.ts
+└── convex.json        # Points Convex at server/
 ```
 
-Remember to import { toast } from "sonner". Usage: `toast("Event has been created.")`
+## Prerequisites
 
-## Dialogs
+- **Node.js 18+** (Node 20/22/24 recommended) — [nodejs.org](https://nodejs.org)
+- **npm** (comes with Node) — or bun/pnpm if you prefer, commands below use npm
+- A free **Convex account** — you'll create this when you first run `npx convex dev`
 
-Always ensure your larger dialogs have a scroll in its content to ensure that its content fits the screen size. Make sure that the content is not cut off from the screen.
+## Quick start
 
-Ideally, instead of using a new page, use a Dialog instead. 
+```bash
+# 1. Install dependencies
+npm install
 
-# Using the Convex backend
-
-You will be implementing the convex backend. Follow your knowledge of convex and the documentation to implement the backend.
-
-## The Convex Schema
-
-You must correctly follow the convex schema implementation.
-
-The schema is defined in `src/convex/schema.ts`.
-
-Do not include the `_id` and `_creationTime` fields in your queries (it is included by default for each table).
-Do not index `_creationTime` as it is indexed for you. Never have duplicate indexes.
-
-
-## Convex Actions: Using CRUD operations
-
-When running anything that involves external connections, you must use a convex action with "use node" at the top of the file.
-
-You cannot have queries or mutations in the same file as a "use node" action file. Thus, you must use pre-built queries and mutations in other files.
-
-You can also use the pre-installed internal crud functions for the database:
-
-```ts
-// in convex/users.ts
-import { crud } from "convex-helpers/server/crud";
-import schema from "./schema.ts";
-
-export const { create, read, update, destroy } = crud(schema, "users");
-
-// in some file, in an action:
-const user = await ctx.runQuery(internal.users.read, { id: userId });
-
-await ctx.runMutation(internal.users.update, {
-  id: userId,
-  patch: {
-    status: "inactive",
-  },
-});
+# 2. Start the Convex backend (first run: creates your project & deployment)
+npx convex dev
 ```
 
+The first `npx convex dev` will:
+1. Ask you to log in to Convex (opens a browser).
+2. Ask to create a new project — pick a name, choose the *development* deployment.
+3. Push the backend functions from `server/` and generate `server/_generated/`.
+4. Write your deployment's `CONVEX_DEPLOYMENT` and `VITE_CONVEX_URL` into `.env.local` automatically.
 
-## Common Convex Mistakes To Avoid
+Leave `npx convex dev` running in one terminal (it keeps the backend in sync), then in a
+second terminal:
 
-When using convex, make sure:
-- Document IDs are referenced as `_id` field, not `id`.
-- Document ID types are referenced as `Id<"TableName">`, not `string`.
-- Document object types are referenced as `Doc<"TableName">`.
-- Keep schemaValidation to false in the schema file.
-- You must correctly type your code so that it passes the type checker.
-- You must handle null / undefined cases of your convex queries for both frontend and backend, or else it will throw an error that your data could be null or undefined.
-- Always use the `@/folder` path, with `@/convex/folder/file.ts` syntax for importing convex files.
-- This includes importing generated files like `@/convex/_generated/server`, `@/convex/_generated/api`
-- Remember to import functions like useQuery, useMutation, useAction, etc. from `convex/react`
-- NEVER have return type validators.
+```bash
+# 3. Start the frontend dev server
+npm run dev
+```
+
+Open **http://localhost:5173** — the app boots, the simulation seeds itself on first
+dashboard load, and you can sign in with a guest account or an email code.
+
+## Environment variables
+
+### Frontend (`.env.local`, created automatically by `npx convex dev`)
+
+```ini
+CONVEX_DEPLOYMENT=dev:your-deployment-name   # written by Convex CLI
+VITE_CONVEX_URL=https://your-deployment.convex.cloud
+```
+
+You can copy `.env.example` as a reference. You normally never hand-edit these —
+`npx convex dev` maintains them.
+
+### Backend (Convex environment variables)
+
+Set with `npx convex env set <NAME> <value>` (or in the [Convex dashboard](https://dashboard.convex.dev)):
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `SITE_URL` | **Yes** | Your frontend origin, e.g. `http://localhost:5173`. Used as the redirect target after sign-in. Wrong value = "No matching routes found" after login. |
+| `JWKS`, `JWT_PRIVATE_KEY` | Auto | Auth token signing keys, generated by Convex Auth on first run. |
+| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Optional | Enable "Continue with Google". See below. |
+
+### Optional: Google sign-in
+
+1. Go to [Google Auth Platform](https://console.cloud.google.com/auth/overview), create a project and an **OAuth client** of type *Web application*.
+2. **Authorized JavaScript origin**: `http://localhost:5173`
+3. **Authorized redirect URI**: `https://<your-deployment>.convex.site/api/auth/callback/google`
+   (find your exact deployment URL with `npx convex env list`; note `.site` not `.cloud`)
+4. Add yourself as a **test user** while the consent screen is in *Testing* mode.
+5. Set the credentials:
+   ```bash
+   npx convex env set AUTH_GOOGLE_ID <client id ending in .apps.googleusercontent.com>
+   npx convex env set AUTH_GOOGLE_SECRET <client secret starting with GOCSPX->
+   ```
+   Takes effect immediately — no redeploy needed.
+
+Without Google credentials, the other sign-in methods (email code, guest) work fine.
+
+## What you get when it's running
+
+| Route | What it is |
+|---|---|
+| `/` | Landing page |
+| `/auth` | Sign in (email OTP, guest, Google) |
+| `/dashboard` | Live map: hazards, shelters, evacuation routes, your status (simulated in real time) |
+| `/catalog` | Survival guide: before/during/after steps, go-bag checklist, hazard-specific do's & don'ts |
+| `/messages` | Direct messages between users |
+| `/admin` | Admin console: user roles + live check-in monitor (admins only) |
+
+The **simulation engine** (`server/simulation.ts`) seeds shelters, risk zones, routes and
+alerts on first run, then evolves them every few seconds — escalations, occupancy changes,
+blocked roads — so the dashboard always feels live. No external weather API needed.
+
+### Making yourself an admin
+
+Admins are just users with the `admin` role. The first admin must be promoted directly in
+the database (after that, admins can promote others from the `/admin` page):
+
+1. Sign in to the app once (any method) so your user row exists.
+2. Find your user id and patch the role:
+
+```bash
+npx convex data users          # note your user's _id
+npx convex run admin:setRole '{"userId":"<your user id>","role":"admin"}'
+```
+
+> `admin:setRole` normally requires an existing admin — for the very first admin, use the
+> Convex dashboard (Data → users table → edit your row's `role` field to `admin`).
+
+## Useful commands
+
+```bash
+npm run dev          # Vite dev server (frontend) on :5173
+npx convex dev       # Convex dev server (backend) — keep running alongside
+npx convex logs      # Stream backend logs
+npx convex env list  # List backend env vars
+npx convex data users# Browse a table in the terminal
+npm run build        # Typecheck + production build to dist/
+npm run lint         # ESLint
+```
+
+## Production build
+
+```bash
+npm run build        # outputs static files to dist/
+npx convex deploy    # push backend to your production deployment
+```
+
+Serve `dist/` from any static host (the repo includes a Deno/Hono server file `main.ts`
+used by the Freebuff hosting environment; any static file server works). Remember to:
+
+1. Point `SITE_URL` (backend env var) at your production origin.
+2. Add the production origin + callback URI in Google Cloud Console if you use Google sign-in.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `No matching routes found` after signing in | Backend `SITE_URL` doesn't match your frontend origin. `npx convex env set SITE_URL http://localhost:5173` |
+| `Failed to resolve import "@/..."` | Dev server was started before the folder move/rename — restart `npm run dev`. |
+| Map tiles blank | Leaflet loads tiles from OpenStreetMap; check your network/adblocker. |
+| Email code never arrives | The OTP sender is configured for the Freebuff environment. For local dev use **Continue as Guest**, or wire your own SMTP provider in `server/auth/emailOtp.ts`. |
+| Google shows "Access blocked" / `invalid_client` | Credentials not set or the consent screen is in Testing mode and you're not a test user. See *Google sign-in* above. |
+| Google shows `redirect_uri_mismatch` | The redirect URI in Google Cloud Console must exactly match `https://<deployment>.convex.site/api/auth/callback/google` (including any region like `.eu-west-1`). |
+
+## Conventions for contributors
+
+- Frontend imports use the `@/` alias (→ `client/`); backend generated api is imported as
+  `@server/_generated/api` on the frontend and `./_generated/...` inside `server/`.
+- Keep auth files (`server/auth.ts`, `server/auth.config.ts`, `server/auth/emailOtp.ts`)
+  unchanged unless adding a provider deliberately.
+- Schema lives in `server/schema.ts` (`schemaValidation: false`); never hand-edit
+  `server/_generated/`.
+- Route pages go in `client/pages/` and must be registered in `client/main.tsx`.
