@@ -55,7 +55,7 @@ List what is currently set with `npx convex env list`.
 | Variable | Required | Purpose |
 |---|---|---|
 | `SITE_URL` | **Yes** | The **frontend origin** users are redirected to after sign-in. See below. |
-| `VLY_CONVEX_AUTH_ISSUER` | Yes (set by default) | Issuer of Freebuff federated tokens. See below. |
+| `VLY_CONVEX_AUTH_ISSUER` | No — Freebuff platform only | Issuer of Freebuff federated tokens. See below. |
 | `AUTH_GOOGLE_ID` | For Google login | Google OAuth client ID (`...apps.googleusercontent.com`) |
 | `AUTH_GOOGLE_SECRET` | For Google login | Google OAuth client secret (`GOCSPX-...`) |
 | `VLY_APP_NAME` | Optional | App name shown in the email-OTP email (defaults to "a freebuff.com application") |
@@ -113,6 +113,24 @@ Defaults and behavior:
   validation and those users cannot get in.
 - Changing it does not affect the app's own email-OTP / guest / Google logins; it only
   governs the Freebuff-federated path.
+
+#### Not using Freebuff?
+
+Then you don't need `VLY_CONVEX_AUTH_ISSUER` at all. It only matters when freebuff.com is
+minting sign-in tokens for your app. Running standalone:
+
+- **Leave it unset.** The code falls back to `https://freebuff.com`; since no token with that
+  issuer will ever be presented, the provider is inert and costs nothing at runtime.
+- **Your sign-ins are unaffected.** Email OTP, guest and Google all run through the local
+  Convex Auth provider (issuer = the deployment's own `CONVEX_SITE_URL`), which never reads
+  this variable.
+- **Optional cleanup:** delete the `{ type: "customJwt", ... }` entry in
+  `server/auth.config.ts`. (The "do not modify" guidance around the auth files applies to
+  the Freebuff template workflow — on your own fork the file is yours.)
+- **Related dependency to replace:** the OTP email sender in `server/auth/emailOtp.ts` posts
+  to `https://auth.freebuff.app/send_otp` with a shared API key — a Freebuff-provided
+  service. On a standalone deployment, swap it for your own email provider or verification
+  emails will not deliver.
 
 #### Google OAuth variables
 
