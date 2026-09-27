@@ -25,8 +25,9 @@
     "noPropertyAccessFromIndexSignature": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./client/*"],
+      "@server/*": ["./server/*"]
     }
   },
-  "include": ["src", "vly-toolbar-readonly.tsx"]
+  "include": ["client", "vly-toolbar-readonly.tsx"]
 }

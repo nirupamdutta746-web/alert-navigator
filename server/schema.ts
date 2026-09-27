@@ -109,23 +109,6 @@ const schema = defineSchema(
       .index("by_user", ["userId"])
       .index("by_created", ["createdAt"]),
 
-    // ===== Alert Navigator: preparedness catalog (products, kits, guides) =====
-    catalogItems: defineTable({
-      name: v.string(),
-      description: v.string(),
-      category: v.union(
-        v.literal("emergency_kit"),
-        v.literal("sensor_device"),
-        v.literal("safety_gear"),
-        v.literal("guide"),
-        v.literal("training"),
-      ),
-      price: v.number(),
-      rating: v.optional(v.number()),
-      published: v.boolean(),
-      createdAt: v.number(),
-    }).index("by_published", ["published"]),
-
     // ===== Alert Navigator: citizen comments on live hazard alerts =====
     reportComments: defineTable({
       hazardId: v.id("hazards"),
@@ -133,15 +116,6 @@ const schema = defineSchema(
       body: v.string(),
       createdAt: v.number(),
     }).index("by_hazard", ["hazardId"]),
-
-    // ===== Alert Navigator: reviews on catalog items =====
-    reviews: defineTable({
-      catalogItemId: v.id("catalogItems"),
-      userId: v.id("users"),
-      rating: v.number(),
-      body: v.string(),
-      createdAt: v.number(),
-    }).index("by_item", ["catalogItemId"]),
 
     // ===== Alert Navigator: direct community messages =====
     messages: defineTable({

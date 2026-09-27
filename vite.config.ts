@@ -9,7 +9,8 @@ export default defineConfig({
   plugins: [react(), vlyPlugin(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./client"),
+      "@server": path.resolve(__dirname, "./server"),
     },
     // Force a single copy of React across all packages (including vlyPlugin).
     // Without this, @vly-ai/integrations can resolve its own React copy, which
@@ -76,7 +77,7 @@ export default defineConfig({
   optimizeDeps: {
     // Only scan the app entry HTML; avoids crawling unrelated *.html files
     // if a legacy snapshot accidentally contains leaked package folders.
-    entries: ['index.html'],
+    entries: ['index.html', 'client/main.tsx'],
     include: [
       'react',
       'react/jsx-runtime',

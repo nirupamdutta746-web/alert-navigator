@@ -1,4 +1,4 @@
-import { api } from "@/convex/_generated/api";
+import { api } from "@server/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useConvexAuth, useQuery } from "convex/react";
 

@@ -12,7 +12,7 @@ import {
   type Shelter,
 } from "@/lib/stormData";
 import { routeChip, severityChip, shelterChip } from "@/lib/stormTheme";
-import { api } from "@/convex/_generated/api";
+import { api } from "@server/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import {
   AlertTriangle,
@@ -200,7 +200,7 @@ export default function Dashboard() {
             <nav className="hidden items-center gap-1.5 lg:flex">
               {[
                 { to: "/dashboard", label: "Live map", badge: 0 },
-                { to: "/catalog", label: "Catalog", badge: 0 },
+                { to: "/catalog", label: "Survival guide", badge: 0 },
                 { to: "/messages", label: "Messages", badge: unread ?? 0 },
                 ...(isAdmin ? [{ to: "/admin", label: "Admin", badge: 0 }] : []),
               ].map((n) => (

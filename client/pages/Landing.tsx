@@ -3,9 +3,9 @@ import { useAuth } from "@/hooks/use-auth";
 import {
   AlertTriangle,
   ArrowRight,
+  BookOpen,
   LifeBuoy,
   MessageCircle,
-  Package,
   Radio,
   Route as RouteIcon,
   ShieldCheck,
@@ -89,9 +89,9 @@ const features = [
 
 const extras = [
   {
-    icon: Package,
-    title: "Preparedness catalog",
-    body: "Browse and search vetted emergency kits, home sensors, safety gear and certified training — reviewed by people who used them.",
+    icon: BookOpen,
+    title: "Survival guide",
+    body: "A step-by-step playbook for before, during and after a disaster — with a go-bag checklist and clear do's and don'ts.",
   },
   {
     icon: MessageCircle,
@@ -101,7 +101,7 @@ const extras = [
   {
     icon: ShieldCheck,
     title: "Admin operations console",
-    body: "Operators manage user roles, curate the catalog and monitor citizen check-ins as they arrive.",
+    body: "Operators manage user roles and monitor citizen check-ins as they arrive.",
   },
 ];
 
