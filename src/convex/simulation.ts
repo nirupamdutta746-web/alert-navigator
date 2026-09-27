@@ -158,6 +158,94 @@ export const tick = mutation({
       for (const r of routes) await ctx.db.insert("evacuationRoutes", r);
     }
 
+    // ---------- catalog seed (preparedness products, kits, guides) ----------
+    const existingCatalog = await ctx.db.query("catalogItems").collect();
+    if (existingCatalog.length === 0) {
+      const catalogSeed = [
+        {
+          name: "72-Hour Flood Go-Bag",
+          description:
+            "Weatherproof pack with water pouches, ration bars, first-aid kit, flashlight, radio and a whistle. Sized for one person, three days.",
+          category: "emergency_kit" as const,
+          price: 89,
+          rating: 4.6,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "Family Cyclone Kit",
+          description:
+            "Four-person kit with tarps, rope, water purification tablets, dust masks and a hand-crank phone charger.",
+          category: "emergency_kit" as const,
+          price: 149,
+          rating: 4.3,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "RiverGauge Home Sensor",
+          description:
+            "Low-cost water-level sensor that links to StormWatch and pings your phone when nearby gauges rise past warning marks.",
+          category: "sensor_device" as const,
+          price: 39,
+          rating: 4.8,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "Mesh SOS Beacon",
+          description:
+            "Pocket radio beacon that forms a mesh with neighbors' units, so SOS signals hop out even when cell towers are down.",
+          category: "sensor_device" as const,
+          price: 59,
+          rating: 4.5,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "High-Visibility Rain Suit",
+          description:
+          "Taped-seam jacket and overalls in hi-vis orange with reflective bands, rated for 200mm/hr downpours.",
+          category: "safety_gear" as const,
+          price: 34,
+          rating: 4.1,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "Life Hammer & Seatbelt Cutter",
+          description:
+            "Double-headed hammer and belt cutter for escaping a flooded or jammed vehicle. Mounts inside the door pocket.",
+          category: "safety_gear" as const,
+          price: 15,
+          rating: 4.7,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "Household Flood-Proofing Guide",
+          description:
+            "Illustrated 40-page playbook: sandbag placement, safe shut-off order, electrical isolation and what to grab first.",
+          category: "guide" as const,
+          price: 9,
+          rating: 4.9,
+          published: true,
+          createdAt: now,
+        },
+        {
+          name: "Community Response Team Training",
+          description:
+            "Half-day certified course for volunteers: search basics, triage, shelter management and radio discipline.",
+          category: "training" as const,
+          price: 45,
+          rating: 4.4,
+          published: true,
+          createdAt: now,
+        },
+      ];
+      for (const c of catalogSeed) await ctx.db.insert("catalogItems", c);
+    }
+
     // ---------- hazards: expire, then upsert the live scenario ----------
     const activeHazards = await ctx.db
       .query("hazards")

@@ -4,6 +4,8 @@ import {
   AlertTriangle,
   ArrowRight,
   LifeBuoy,
+  MessageCircle,
+  Package,
   Radio,
   Route as RouteIcon,
   ShieldCheck,
@@ -85,6 +87,24 @@ const features = [
   },
 ];
 
+const extras = [
+  {
+    icon: Package,
+    title: "Preparedness catalog",
+    body: "Browse and search vetted emergency kits, home sensors, safety gear and certified training — reviewed by people who used them.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Community messages",
+    body: "Direct, private messaging between members to coordinate pick-ups, share ground truth and check on each other.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Admin operations console",
+    body: "Operators manage user roles, curate the catalog and monitor citizen check-ins as they arrive.",
+  },
+];
+
 export default function Landing() {
   const { isAuthenticated } = useAuth();
   const dashTarget = isAuthenticated ? "/dashboard" : "/auth?returnTo=%2Fdashboard";
@@ -96,7 +116,7 @@ export default function Landing() {
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2 border-2 border-[#111111] bg-[#111111] px-2.5 py-1.5 text-white shadow-[3px_3px_0_0_#ffd02f]">
             <Siren className="size-4" />
-            <span className="text-sm font-black uppercase tracking-widest">Stormwatch</span>
+            <span className="text-sm font-black uppercase tracking-widest">Alert Navigator</span>
           </div>
           <Button
             asChild
@@ -236,6 +256,28 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ============ Beyond alerts ============ */}
+      <section className="border-b-2 border-[#111111] bg-[#7cc4f2]">
+        <div className="mx-auto w-full max-w-7xl px-4 py-12">
+          <h2 className="text-2xl font-black uppercase tracking-tight sm:text-3xl">
+            Beyond the siren
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {extras.map((x) => (
+              <div key={x.title} className="sw-card bg-white p-5">
+                <div className="flex size-10 items-center justify-center border-2 border-[#111111] bg-[#f4f2ec]">
+                  <x.icon className="size-5" />
+                </div>
+                <h3 className="mt-3 text-base font-black uppercase">{x.title}</h3>
+                <p className="mt-1 text-sm font-semibold leading-relaxed text-[#111111]/75">
+                  {x.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ Trust strip ============ */}
       <section className="border-b-2 border-[#111111] bg-[#111111] text-white">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-6">
@@ -280,9 +322,9 @@ export default function Landing() {
       {/* ============ Footer ============ */}
       <footer className="border-t-2 border-[#111111] bg-[#f4f2ec]">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-5">
-          <span className="text-xs font-bold uppercase tracking-widest">StormWatch</span>
+          <span className="text-xs font-bold uppercase tracking-widest">Alert Navigator</span>
           <span className="text-xs font-semibold text-[#111111]/60">
-            Hackathon prototype · simulated sensor feed · OpenStreetMap tiles
+            Preparedness catalog · live hazard alerts · OpenStreetMap tiles
           </span>
         </div>
       </footer>

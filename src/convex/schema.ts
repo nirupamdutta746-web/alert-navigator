@@ -32,7 +32,7 @@ const schema = defineSchema(
       role: v.optional(roleValidator), // role of the user. do not remove
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
-    // ===== StormWatch: live hazard alerts (flood / cyclone early warning) =====
+    // ===== Alert Navigator: live hazard alerts (flood / cyclone early warning) =====
     hazards: defineTable({
       title: v.string(),
       hazardType: v.union(
@@ -56,7 +56,7 @@ const schema = defineSchema(
       .index("by_severity", ["severity"])
       .index("by_expires", ["expiresAt"]),
 
-    // ===== StormWatch: relief shelters with capacity + live occupancy =====
+    // ===== Alert Navigator: relief shelters with capacity + live occupancy =====
     shelters: defineTable({
       name: v.string(),
       lat: v.number(),
@@ -79,7 +79,7 @@ const schema = defineSchema(
       amenities: v.array(v.string()),
     }).index("by_status", ["status"]),
 
-    // ===== StormWatch: evacuation route polylines towards a shelter =====
+    // ===== Alert Navigator: evacuation route polylines towards a shelter =====
     evacuationRoutes: defineTable({
       name: v.string(),
       toShelterId: v.id("shelters"),
@@ -93,7 +93,7 @@ const schema = defineSchema(
       note: v.string(),
     }).index("by_shelter", ["toShelterId"]),
 
-    // ===== StormWatch: citizen SOS / I-am-safe check-ins =====
+    // ===== Alert Navigator: citizen SOS / I-am-safe check-ins =====
     checkins: defineTable({
       userId: v.id("users"),
       lat: v.number(),
@@ -108,6 +108,51 @@ const schema = defineSchema(
     })
       .index("by_user", ["userId"])
       .index("by_created", ["createdAt"]),
+
+    // ===== Alert Navigator: preparedness catalog (products, kits, guides) =====
+    catalogItems: defineTable({
+      name: v.string(),
+      description: v.string(),
+      category: v.union(
+        v.literal("emergency_kit"),
+        v.literal("sensor_device"),
+        v.literal("safety_gear"),
+        v.literal("guide"),
+        v.literal("training"),
+      ),
+      price: v.number(),
+      rating: v.optional(v.number()),
+      published: v.boolean(),
+      createdAt: v.number(),
+    }).index("by_published", ["published"]),
+
+    // ===== Alert Navigator: citizen comments on live hazard alerts =====
+    reportComments: defineTable({
+      hazardId: v.id("hazards"),
+      userId: v.id("users"),
+      body: v.string(),
+      createdAt: v.number(),
+    }).index("by_hazard", ["hazardId"]),
+
+    // ===== Alert Navigator: reviews on catalog items =====
+    reviews: defineTable({
+      catalogItemId: v.id("catalogItems"),
+      userId: v.id("users"),
+      rating: v.number(),
+      body: v.string(),
+      createdAt: v.number(),
+    }).index("by_item", ["catalogItemId"]),
+
+    // ===== Alert Navigator: direct community messages =====
+    messages: defineTable({
+      fromId: v.id("users"),
+      toId: v.id("users"),
+      body: v.string(),
+      readAt: v.optional(v.number()),
+      createdAt: v.number(),
+    })
+      .index("by_to", ["toId"])
+      .index("by_from", ["fromId"]),
   },
   {
     schemaValidation: false,

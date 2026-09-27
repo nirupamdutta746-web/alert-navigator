@@ -32,7 +32,7 @@ import {
   WifiOff,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const hazardIcon = {
@@ -100,6 +100,8 @@ export default function Dashboard() {
   const rawRoutes = useQuery(api.hazards.listRoutes) ?? [];
   const myCheckIn = useQuery(api.checkins.myLatest);
   const pulse = useQuery(api.checkins.recentCount);
+  const unread = useQuery(api.community.unreadCount);
+  const isAdmin = useQuery(api.admin.isAdmin);
   const tick = useMutation(api.simulation.tick);
   const fileCheckIn = useMutation(api.checkins.checkIn);
 
@@ -185,7 +187,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 border-2 border-[#111111] bg-[#111111] px-2.5 py-1.5 text-white shadow-[3px_3px_0_0_#ffd02f]">
               <Siren className="size-4" />
               <span className="text-sm font-black uppercase tracking-widest">
-                Stormwatch
+                Alert Navigator
               </span>
             </div>
             <Chip className="bg-[#7cc4f2]">
@@ -195,6 +197,27 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-2">
+            <nav className="hidden items-center gap-1.5 lg:flex">
+              {[
+                { to: "/dashboard", label: "Live map", badge: 0 },
+                { to: "/catalog", label: "Catalog", badge: 0 },
+                { to: "/messages", label: "Messages", badge: unread ?? 0 },
+                ...(isAdmin ? [{ to: "/admin", label: "Admin", badge: 0 }] : []),
+              ].map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  className="relative border-2 border-[#111111] bg-white px-2.5 py-1.5 text-[11px] font-black uppercase tracking-wider shadow-[3px_3px_0_0_#111111] hover:bg-[#ffd02f] hover:shadow-none"
+                >
+                  {n.label}
+                  {n.badge > 0 && (
+                    <span className="absolute -right-2 -top-2 flex size-4 items-center justify-center border-2 border-[#111111] bg-[#ff5c39] text-[9px] font-black text-white">
+                      {n.badge}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </nav>
             <Chip className={online ? "bg-[#d9e8c5]" : "bg-[#ff5c39] text-white"}>
               {online ? <Wifi className="mr-1 size-3" /> : <WifiOff className="mr-1 size-3" />}
               {online ? "Network OK" : "Offline — SMS fallback"}
