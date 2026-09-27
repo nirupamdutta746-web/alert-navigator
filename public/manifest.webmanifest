@@ -1,0 +1,17 @@
+{
+  "name": "StormWatch — Flood & Cyclone Early Warning",
+  "short_name": "StormWatch",
+  "description": "Live flood and cyclone alerts, risk-zone map, shelters and evacuation routes for citizens.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f2ec",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

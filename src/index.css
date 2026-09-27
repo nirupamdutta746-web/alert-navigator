@@ -1,0 +1,236 @@
+/* DO NOT CHANGE */
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* DO NOT CHANGE */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* CHANGE VALUES FOR THEME */
+:root {
+  --radius: 0rem; /* neobrutalism: square corners everywhere */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+/* ============================================================
+   STORMWATCH — Neobrutalism Minimalism design system
+   Square corners (radius 0), strong 2px black borders, flat
+   color blocking, hard offset shadows, zero visual clutter.
+   ============================================================ */
+
+:root {
+  /* flat blocked colors — bold but controlled */
+  --sw-sun: #ffd02f;       /* signature block (hero / accents) */
+  --sw-sky: #7cc4f2;       /* info / watch blocks */
+  --sw-danger: #ff5c39;    /* severe / danger blocks */
+  --sw-sage: #d9e8c5;      /* calm / safe blocks */
+  --sw-ink: #111111;       /* borders & type */
+  --sw-paper: #f4f2ec;     /* page canvas */
+
+  /* hard offset shadow — flat, no blur */
+  --sw-shadow: 4px 4px 0 0 var(--sw-ink);
+  --sw-shadow-lg: 6px 6px 0 0 var(--sw-ink);
+  --sw-shadow-sm: 3px 3px 0 0 var(--sw-ink);
+}
+
+/* square corners everywhere — neobrutalism requirement */
+@layer base {
+  ::selection {
+    background: var(--sw-sun);
+    color: var(--sw-ink);
+  }
+}
+
+@layer components {
+  .sw-card {
+    background: var(--card);
+    border: 2px solid var(--sw-ink);
+    box-shadow: var(--sw-shadow);
+  }
+  .sw-card-sm {
+    background: var(--card);
+    border: 2px solid var(--sw-ink);
+    box-shadow: var(--sw-shadow-sm);
+  }
+  .sw-card-lg {
+    background: var(--card);
+    border: 3px solid var(--sw-ink);
+    box-shadow: var(--sw-shadow-lg);
+  }
+  .sw-flat {
+    border: 2px solid var(--sw-ink);
+  }
+  .sw-press {
+    transition: box-shadow 0.12s ease, transform 0.12s ease;
+  }
+  .sw-press:hover {
+    box-shadow: 2px 2px 0 0 var(--sw-ink);
+    transform: translate(2px, 2px);
+  }
+  .sw-press:active {
+    box-shadow: 0 0 0 0 var(--sw-ink);
+    transform: translate(4px, 4px);
+  }
+  .sw-underline {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+}
+
+/* Leaflet needs square, bordered, flat popups to match the theme */
+.leaflet-container {
+  font-family: inherit;
+  background: #e8e4d8;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+  border: 2px solid var(--sw-ink);
+  box-shadow: var(--sw-shadow-sm);
+  background: #fff;
+}
+.leaflet-popup-tip {
+  border-radius: 0;
+  border: 2px solid var(--sw-ink);
+  border-top: none;
+  background: #fff;
+}
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+.sw-popup strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.sw-popup span {
+  display: inline-block;
+  margin-top: 4px;
+  border: 1px solid var(--sw-ink);
+  padding: 0 4px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.sw-popup p {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
